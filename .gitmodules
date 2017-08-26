@@ -1,0 +1,6 @@
+[submodule "switch-config"]
+	path = switch-config
+	url = git@github.com:m-lab/switch-config.git
+[submodule "travis"]
+	path = travis
+	url = http://github.com/m-lab/travis.git
