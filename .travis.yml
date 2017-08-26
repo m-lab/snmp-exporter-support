@@ -1,0 +1,18 @@
+before_install:
+- $TRAVIS_BUILD_DIR/travis/decrypt.sh
+  "$encrypted_17be319b7fe6_key" "$encrypted_17be319b7fe6_iv"
+  snmp-exporter-service-account.json.enc snmp-exporter-service-account.json
+install: true
+script:
+- "$TRAVIS_BUILD_DIR/travis/install_gcloud.sh"
+cache:
+  directories:
+  - "$HOME/google-cloud-sdk/"
+deploy:
+- provider: script
+  script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-sandbox"
+  skip_cleanup: true
+  on:
+    repo: m-lab/prometheus-snmp-exporter
+    all_branches: true
+    condition: "$TRAVIS_BRANCH == master"
