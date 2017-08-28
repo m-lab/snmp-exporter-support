@@ -9,7 +9,7 @@ USAGE="Usage: $0 <project>"
 PROJECT=${1:?Please provide project name: $USAGE}
 CREDS_FILE="snmp-exporter-service-account.json"
 SCP_FILES="Dockerfile mlab.yml"
-EXPORTER_URI=$(cut -d' ' -f2 $TRAVIS_BUILD_DIR/Dockerfile)
+EXPORTER_URI=$(grep '^FROM' $TRAVIS_BUILD_DIR/Dockerfile | cut -d' ' -f2)
 
 # These variables will change depending on the GCE instance created.
 GCE_INSTANCE="kinkade-snmp-exporter"
