@@ -9,7 +9,7 @@ USAGE="Usage: $0 <project>"
 PROJECT=${1:?Please provide project name: $USAGE}
 CREDS_FILE="snmp-exporter-service-account.json"
 SCP_FILES="Dockerfile mlab.yml"
-EXPORTER_URI=$(cut -d' ' -f2 Dockerfile)
+EXPORTER_URI=$(cut -d' ' -f2 $TRAVIS_BUILD_DIR/Dockerfile)
 
 # These variables will change depending on the GCE instance created.
 GCE_INSTANCE="kinkade-snmp-exporter"
@@ -19,7 +19,7 @@ GCE_ZONE="us-central1-a"
 source "${HOME}/google-cloud-sdk/path.bash.inc"
 
 # Generate the snmp_exporter configuration file.
-$HOME/gen-snmp_exporter-config.py
+$TRAVIS_BUILD_DIR/gen-snmp_exporter-config.py
 
 # Set the project and zone for all future gcloud commands.
 gcloud config set project $PROJECT
@@ -27,16 +27,16 @@ gcloud config set compute/zone $GCE_ZONE
 
 # Authenticate the service account using the JSON credentials file.
 if [[ -f "${CREDS_FILE}" ]] ; then
-  gcloud auth activate-service-account --key-file $HOME/$CREDS_FILE
+  gcloud auth activate-service-account --key-file $TRAVIS_BUILD_DIR/$CREDS_FILE
 else
-  echo "Service account credentials not found at ${HOME}/${CREDS_FILE}!"
+  echo "Service account credentials not found at ${TRAVIS_BUILD_DIR}/${CREDS_FILE}!"
   exit 1
 fi
 
 # Make sure that the files we want to copy actually exist.
 for scp_file in ${SCP_FILES}; do
-  if [[ ! -f "${scp_file}" ]]; then
-    echo "Missing required file: ${scp_file}!"
+  if [[ ! -f "${TRAVIS_BUILD_DIR}/${scp_file}" ]]; then
+    echo "Missing required file: ${TRAVIS_BUILD_DIR}/${scp_file}!"
     exit 1
   fi
 done
