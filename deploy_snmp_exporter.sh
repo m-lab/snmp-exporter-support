@@ -49,7 +49,8 @@ gcloud compute ssh $GCE_INSTANCE --command "sudo docker build ."
 
 # Delete any existing snmp_exporter containters
 gcloud compute ssh $GCE_INSTANCE --command \
-  "sudo docker rm -f \$(sudo docker ps -q -f=ancestor=$EXPORTER_URI)"
+    "if [[ -n \"\$(sudo docker ps -q -f=ancestor=$EXPORTER_URI)\" ]]; then " \
+    "sudo docker rm -f \$(sudo docker ps -q -f=ancestor=$EXPORTER_URI); fi"
 
 # Start a new container based on the new/updated image
 gcloud compute ssh $GCE_INSTANCE --command \

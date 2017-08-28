@@ -9,6 +9,7 @@ script:
 cache:
   directories:
   - "$HOME/google-cloud-sdk/"
+  - "$HOME/.ssh/"
 deploy:
 - provider: script
   script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-sandbox"
