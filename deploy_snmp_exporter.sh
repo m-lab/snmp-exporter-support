@@ -26,10 +26,10 @@ gcloud config set project $PROJECT
 gcloud config set compute/zone $GCE_ZONE
 
 # Authenticate the service account using the JSON credentials file.
-if [[ -f "${TRAVIS_BUILD_DIR}/${CREDS_FILE}" ]] ; then
-  gcloud auth activate-service-account --key-file $TRAVIS_BUILD_DIR/$CREDS_FILE
+if [[ -f "${HOME}/${CREDS_FILE}" ]] ; then
+  gcloud auth activate-service-account --key-file $HOME/$CREDS_FILE
 else
-  echo "Service account credentials not found at ${TRAVIS_BUILD_DIR}/${CREDS_FILE}!"
+  echo "Service account credentials not found at ${HOME}/${CREDS_FILE}!"
   exit 1
 fi
 
