@@ -15,6 +15,9 @@ EXPORTER_URI=$(cut -d' ' -f2 Dockerfile)
 GCE_INSTANCE="kinkade-snmp-exporter"
 GCE_ZONE="us-central1-a"
 
+# Add gcloud to PATH.
+source "${HOME}/google-cloud-sdk/path.bash.inc"
+
 # Generate the snmp_exporter configuration file.
 ./gen-snmp_exporter-config.py
 
