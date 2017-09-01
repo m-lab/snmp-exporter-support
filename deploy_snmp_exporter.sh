@@ -46,7 +46,7 @@ done
 # stdout. If $EXISTING_INSTANCE is not null then we infer that the instance
 # already exists.
 EXISTING_INSTANCE=$(gcloud compute instances list --filter "name=${GCE_NAME}")
-if [[ -n "$INST" ]]; then
+if [[ -n "${EXISTING_INSTANCE}" ]]; then
   gcloud compute instances delete $GCE_NAME --quiet
 fi
 
