@@ -20,3 +20,5 @@ add-apt-repository \
 
 apt-get update --yes
 apt-get install --yes docker-ce
+
+systemctl restart docker
