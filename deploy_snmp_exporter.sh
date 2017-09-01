@@ -64,7 +64,7 @@ gcloud compute scp $SCP_FILES $GCE_NAME:~
 gcloud compute ssh $GCE_NAME --command "sudo docker build ."
 
 # Delete any existing snmp_exporter containters.
-gcloud compute ssh $GCE_INSTANCE --command \
+gcloud compute ssh $GCE_NAME --command \
   "if [[ -n \"\$(sudo docker ps -q -f=ancestor=$IMAGE_TAG)\" ]]; then \
   sudo docker rm -f \$(sudo docker ps -q -f=ancestor=$IMAGE_TAG); fi"
 
