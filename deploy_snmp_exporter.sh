@@ -52,7 +52,8 @@ fi
 
 # Create the new GCE instance. NOTE: $GCE_IP_NAME *must* refer to an existing
 # static external IP address for the project.
-gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME
+gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME \
+  --metadata-from-file startup-script=install_docker.sh
 
 # Copy required snmp_exporter files to the GCE instance.
 gcloud compute scp $SCP_FILES $GCE_NAME:~
