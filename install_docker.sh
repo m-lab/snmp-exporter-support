@@ -5,7 +5,7 @@
 
 apt-get update --yes
 apt-get install --yes \
-  apt-transport-https
+  apt-transport-https \
   ca-certificates \
   curl \
   gnupg2 \
