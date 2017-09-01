@@ -3,8 +3,8 @@
 # A GCE startup script to install Docker per the instructions at:
 # https://docs.docker.com/engine/installation/linux/docker-ce/debian/#install-using-the-repository
 
-apt-get update
-apt-get install \
+apt-get update --yes
+apt-get install --yes \
   apt-transport-https
   ca-certificates \
   curl \
@@ -18,5 +18,5 @@ sudo add-apt-repository \
   $(lsb_release -cs) \
   stable"
 
-apt-get update
-apt-get install docker-ce
+apt-get update --yes
+apt-get install --yes docker-ce
