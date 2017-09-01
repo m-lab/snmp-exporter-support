@@ -13,6 +13,8 @@ EXPORTER_URI=$(cut -d' ' -f2 $TRAVIS_BUILD_DIR/Dockerfile)
 GCE_ZONE="us-central1-a"
 GCE_NAME="snmp-exporter"
 GCE_IP_NAME="snmp-exporter-public-ip"
+GCE_IMG_PROJECT="coreos-cloud"
+GCE_IMG_FAMILY="coreos-stable"
 
 # Add gcloud to PATH.
 source "${HOME}/google-cloud-sdk/path.bash.inc"
@@ -53,7 +55,7 @@ fi
 # Create the new GCE instance. NOTE: $GCE_IP_NAME *must* refer to an existing
 # static external IP address for the project.
 gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME \
-  --metadata-from-file startup-script=install_docker.sh
+  --image-project $GCE_IMG_PROJECT --image-family $GCE_IMG_FAMILY
 
 # Copy required snmp_exporter files to the GCE instance.
 gcloud compute scp $SCP_FILES $GCE_NAME:~
