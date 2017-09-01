@@ -61,7 +61,7 @@ gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME \
 gcloud compute scp $SCP_FILES $GCE_NAME:~
 
 # Build the snmp_exporter Docker container.
-gcloud compute ssh $GCE_NAME --command "sudo docker build ."
+gcloud compute ssh $GCE_NAME --command "sudo docker build -t ${IMAGE_TAG} ."
 
 # Delete any existing snmp_exporter containters.
 gcloud compute ssh $GCE_NAME --command \
