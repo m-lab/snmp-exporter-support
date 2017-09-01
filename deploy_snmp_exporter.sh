@@ -9,7 +9,7 @@ USAGE="Usage: $0 <project>"
 PROJECT=${1:?Please provide project name: $USAGE}
 CREDS_FILE="snmp-exporter-service-account.json"
 SCP_FILES="Dockerfile mlab.yml"
-EXPORTER_URI=$(grep '^FROM' $TRAVIS_BUILD_DIR/Dockerfile | cut -d' ' -f2)
+IMAGE_TAG="m-lab/prometheus-snmp-exporter"
 GCE_ZONE="us-central1-a"
 GCE_NAME="snmp-exporter"
 GCE_IP_NAME="snmp-exporter-public-ip"
@@ -64,9 +64,10 @@ gcloud compute scp $SCP_FILES $GCE_NAME:~
 gcloud compute ssh $GCE_NAME --command "sudo docker build ."
 
 # Delete any existing snmp_exporter containters.
-gcloud compute ssh $GCE_NAME --command \
-  "sudo docker rm -f \$(sudo docker ps -q -f=ancestor=$EXPORTER_URI)"
+gcloud compute ssh $GCE_INSTANCE --command \
+  "if [[ -n \"\$(sudo docker ps -q -f=ancestor=$IMAGE_TAG)\" ]]; then \
+  sudo docker rm -f \$(sudo docker ps -q -f=ancestor=$IMAGE_TAG); fi"
 
 # Start a new container based on the new/updated image
 gcloud compute ssh $GCE_NAME --command \
-  "sudo docker run -p 9116:9116 -d ${EXPORTER_URI}"
+  "sudo docker run -p 9116:9116 -d ${IMAGE_TAG}"
