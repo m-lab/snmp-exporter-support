@@ -1,17 +1,39 @@
 before_install:
-- $TRAVIS_BUILD_DIR/travis/decrypt.sh
-  "$encrypted_17be319b7fe6_key" "$encrypted_17be319b7fe6_iv"
-  $TRAVIS_BUILD_DIR/snmp-exporter-service-account.json.enc
-  /tmp/snmp-exporter-service-account.json
+  - $TRAVIS_BUILD_DIR/travis/decrypt.sh "$encrypted_d0f94f538e88_key" "$encrypted_d0f94f538e88_iv"
+    $TRAVIS_BUILD_DIR/snmp-exporter-service-accounts.tar.enc
+    $TRAVIS_BUILD_DIR/snmp-exporter-service-accounts.tar
+    /tmp
+
 install: true
+
 script:
-- "$TRAVIS_BUILD_DIR/travis/install_gcloud.sh"
+  - "$TRAVIS_BUILD_DIR/travis/install_gcloud.sh"
+
 cache:
   directories:
-  - "$HOME/google-cloud-sdk/"
+    - "$HOME/google-cloud-sdk/"
+
 deploy:
-- provider: script
-  script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-sandbox"
-  skip_cleanup: true
-  on:
-    all_branches: true
+  # Sandbox - conditionally deploy to GCP project mlab-sandbox
+  - provider: script
+    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-sandbox"
+    skip_cleanup: true
+    on:
+      repo: m-lab/prometheus-snmp-exporter
+      branch: sandbox-*
+      condition: "$TRAVIS_EVENT_TYPE == push"
+  # Staging - conditionally deploy to GCP project mlab-staging
+  - provider: script
+    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-staging"
+    skip_cleanup: true
+    on:
+      repo: m-lab/prometheus-snmp-exporter
+      branch: master
+      condition: "$TRAVIS_EVENT_TYPE == push"
+  # Production - conditionally deploy to GCP project mlab-oti
+  - provider: script
+    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-oti"
+    skip_cleanup: true
+    on:
+      repo: m-lab/prometheus-snmp-exporter
+      tags: true
