@@ -1,4 +1,5 @@
 before_install:
+  - $TRAVIS_BUILD_DIR/build
   - $TRAVIS_BUILD_DIR/travis/decrypt.sh
     "$encrypted_d0f94f538e88_key"
     "$encrypted_d0f94f538e88_iv"
