@@ -20,7 +20,7 @@ GCE_IMG_FAMILY="coreos-stable"
 source "${HOME}/google-cloud-sdk/path.bash.inc"
 
 # Generate the snmp_exporter configuration file.
-$TRAVIS_BUILD_DIR/gen-snmp_exporter-config.py
+$TRAVIS_BUILD_DIR/gen_snmp_exporter_config.py
 
 # Set the project and zone for all future gcloud commands.
 gcloud config set project $PROJECT
