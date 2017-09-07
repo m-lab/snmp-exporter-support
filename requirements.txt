@@ -1,2 +1,2 @@
 pyflakes
-yapf
+yapf == 0.10.0
