@@ -7,7 +7,7 @@ set -x
 # These variables should not change much
 USAGE="Usage: $0 <project>"
 PROJECT=${1:?Please provide project name: $USAGE}
-CREDS_FILE="snmp-exporter-service-account.json"
+CREDS_FILE="snmp-exporter-service-account_${PROJECT}.json"
 SCP_FILES="Dockerfile mlab.yml"
 IMAGE_TAG="m-lab/prometheus-snmp-exporter"
 GCE_ZONE="us-central1-a"
