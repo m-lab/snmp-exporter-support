@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Exit build script on first failure.
+set -e
+
+# Run coverage on unit tests
+#coverage run --source='.' -m unittest discover --pattern='*_test.py'
+
+# Report coverage results
+#coverage report -m
+
+# Check that source has correct formatting.
+yapf --diff --style google *.py
+
+# Run static analysis for Python bugs/cruft.
+pyflakes *.py
