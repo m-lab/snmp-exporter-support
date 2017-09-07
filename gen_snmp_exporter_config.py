@@ -8,7 +8,7 @@ import string
 import sys
 
 
-def parse_options(args):
+def parse_options(args):  # pragma: no cover
     """Parses the options passed to this script.
 
     Args:
@@ -72,10 +72,7 @@ def generate_config(site, details, config_template):  # pragma: no cover
     """
     template = string.Template(config_template)
 
-    template_vars = {
-        'site': site,
-        'community': details['community']
-    }
+    template_vars = {'site': site, 'community': details['community']}
 
     try:
         site_config = template.safe_substitute(template_vars)
@@ -86,8 +83,8 @@ def generate_config(site, details, config_template):  # pragma: no cover
     return site_config
 
 
-def main():
-    args = parse_options(sys.argv[1:]) 
+def main():  # pragma: no cover
+    args = parse_options(sys.argv[1:])
     switch_details = read_switch_details()
     exporter_config_file = open(args.output_file, 'w')
 
@@ -98,7 +95,7 @@ def main():
         logging.error(e)
         sys.exit(1)
 
-    for site, details in sorted(switch_details.iteritems()): 
+    for site, details in sorted(switch_details.iteritems()):
         if details['switch_make'] == 'juniper':
             config_template = juniper_template
         else:
@@ -110,5 +107,5 @@ def main():
     exporter_config_file.close()
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     main()
