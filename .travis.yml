@@ -1,7 +1,6 @@
 language: python
 
 before_install:
-  - $TRAVIS_BUILD_DIR/build
   - $TRAVIS_BUILD_DIR/travis/decrypt.sh
     "$encrypted_d0f94f538e88_key"
     "$encrypted_d0f94f538e88_iv"
@@ -10,8 +9,10 @@ before_install:
     /tmp
 
 install: true
+  - pip install -r requirements.txt
 
 script:
+  - "$TRAVIS_BUILD_DIR/build"
   - "$TRAVIS_BUILD_DIR/travis/install_gcloud.sh"
 
 cache:
