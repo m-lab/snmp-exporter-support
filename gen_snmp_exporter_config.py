@@ -83,8 +83,8 @@ def generate_config(site, details, config_template):  # pragma: no cover
     return site_config
 
 
-def main():  # pragma: no cover
-    args = parse_options(sys.argv[1:])
+def main(argv):  # pragma: no cover
+    args = parse_options(argv[1:])
     switch_details = read_switch_details()
     exporter_config_file = open(args.output_file, 'w')
 
@@ -108,4 +108,4 @@ def main():  # pragma: no cover
 
 
 if __name__ == '__main__':  # pragma: no cover
-    main()
+    main(sys.argv)
