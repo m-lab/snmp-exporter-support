@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Generate an snmp_exporter configuration file for M-Lab's Juniper switches"""
+"""Generate an snmp_exporter configuration file for M-Lab's Juniper switches."""
 
 import argparse
 import json
@@ -48,13 +48,12 @@ def parse_options(args):  # pragma: no cover
 def read_switch_details():  # pragma: no cover
     """Retrieves switch details.
 
-    Returns:
-        A dict with all Juniper switch details
+    Returns: A dict with all Juniper switch details
     """
     switch_details_path = 'switch-config/switch-details.json'
 
-    with open(switch_details_path, 'r') as f:
-        switch_details = json.load(f)
+    with open(switch_details_path, 'r') as details_file:
+        switch_details = json.load(details_file)
 
     return switch_details
 
@@ -76,14 +75,15 @@ def generate_config(site, details, config_template):  # pragma: no cover
 
     try:
         site_config = template.safe_substitute(template_vars)
-    except KeyError, e:
-        logging.error(e)
+    except KeyError, err:
+        logging.error(err)
         sys.exit(1)
 
     return site_config
 
 
 def main(argv):  # pragma: no cover
+    """Main."""
     args = parse_options(argv[1:])
     switch_details = read_switch_details()
     exporter_config_file = open(args.output_file, 'w')
@@ -91,8 +91,8 @@ def main(argv):  # pragma: no cover
     try:
         juniper_template = open(args.juniper_template_path, 'r').read()
         other_template = open(args.other_template_path, 'r').read()
-    except IOError, e:
-        logging.error(e)
+    except IOError, err:
+        logging.error(err)
         sys.exit(1)
 
     for site, details in sorted(switch_details.iteritems()):
