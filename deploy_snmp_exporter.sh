@@ -57,6 +57,10 @@ fi
 gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME \
   --image-project $GCE_IMG_PROJECT --image-family $GCE_IMG_FAMILY
 
+# Disable SSH password authentication on the newly created instance.
+gcloud compute ssh $GCE_NAME --command "echo 'PasswordAuthentication no' >> \
+  /etc/ssh/sshd_config && systemctl restart sshd"
+
 # Copy required snmp_exporter files to the GCE instance.
 gcloud compute scp $SCP_FILES $GCE_NAME:~
 
