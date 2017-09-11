@@ -13,8 +13,8 @@ IMAGE_TAG="m-lab/prometheus-snmp-exporter"
 GCE_ZONE="us-central1-a"
 GCE_NAME="snmp-exporter"
 GCE_IP_NAME="snmp-exporter-public-ip"
-GCE_IMG_PROJECT="coreos-cloud"
-GCE_IMG_FAMILY="coreos-stable"
+GCE_IMG_PROJECT="cos-cloud"
+GCE_IMG_FAMILY="cos-stable"
 
 # Add gcloud to PATH.
 source "${HOME}/google-cloud-sdk/path.bash.inc"
@@ -64,9 +64,9 @@ gcloud compute scp $SCP_FILES $GCE_NAME:~
 gcloud compute ssh $GCE_NAME --command "sudo docker build -t ${IMAGE_TAG} ."
 
 # Delete any existing snmp_exporter containters.
-gcloud compute ssh $GCE_NAME --command \
-  "if [[ -n \"\$(sudo docker ps -q -f=ancestor=$IMAGE_TAG)\" ]]; then \
-  sudo docker rm -f \$(sudo docker ps -q -f=ancestor=$IMAGE_TAG); fi"
+#gcloud compute ssh $GCE_NAME --command \
+#  "if [[ -n \"\$(sudo docker ps -q -f=ancestor=$IMAGE_TAG)\" ]]; then \
+#  sudo docker rm -f \$(sudo docker ps -q -f=ancestor=$IMAGE_TAG); fi"
 
 # Start a new container based on the new/updated image
 gcloud compute ssh $GCE_NAME --command \
