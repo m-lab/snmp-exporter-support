@@ -61,13 +61,7 @@ gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME \
 gcloud compute scp $SCP_FILES $GCE_NAME:~
 
 # Build the snmp_exporter Docker container.
-gcloud compute ssh $GCE_NAME --command "sudo docker build -t ${IMAGE_TAG} ."
-
-# Delete any existing snmp_exporter containters.
-#gcloud compute ssh $GCE_NAME --command \
-#  "if [[ -n \"\$(sudo docker ps -q -f=ancestor=$IMAGE_TAG)\" ]]; then \
-#  sudo docker rm -f \$(sudo docker ps -q -f=ancestor=$IMAGE_TAG); fi"
+gcloud compute ssh $GCE_NAME --command "docker build -t ${IMAGE_TAG} ."
 
 # Start a new container based on the new/updated image
-gcloud compute ssh $GCE_NAME --command \
-  "sudo docker run -p 9116:9116 -d ${IMAGE_TAG}"
+gcloud compute ssh $GCE_NAME --command "docker run -p 9116:9116 -d ${IMAGE_TAG}"
