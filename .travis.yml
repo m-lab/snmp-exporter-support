@@ -8,11 +8,9 @@ before_install:
     $TRAVIS_BUILD_DIR/snmp-exporter-service-accounts.tar
     /tmp
 
-install:
-  - pip install -r requirements.txt
+install: true
 
 script:
-  - "$TRAVIS_BUILD_DIR/build"
   - "$TRAVIS_BUILD_DIR/travis/install_gcloud.sh"
 
 cache:
