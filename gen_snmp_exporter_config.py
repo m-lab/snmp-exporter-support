@@ -58,8 +58,8 @@ def read_switch_details():  # pragma: no cover
     return switch_details
 
 
-def generate_config(site, details, config_template):  # pragma: no cover
-    """Generates the full snmp_exporter config file.
+def generate_site_config(site, details, config_template):
+    """Generates an snmp_exporter config section for a given site.
 
     Args:
         site: str, short name of site (e.g., abc01).
@@ -74,35 +74,47 @@ def generate_config(site, details, config_template):  # pragma: no cover
     template_vars = {'site': site, 'community': details['community']}
 
     try:
-        site_config = template.safe_substitute(template_vars)
+        site_config = template.substitute(template_vars)
     except KeyError, err:
         logging.error(err)
-        sys.exit(1)
+        raise
 
     return site_config
 
 
-def main(argv):  # pragma: no cover
+def write_config(switch_details, templates, output):
+    """Writes configs for each site to a single config file.
+
+    Args:
+        switch_details: dict, all switch configuration details.
+        templates: dict, string templates for various switch types.
+        output: file, file handle to write output to.
+    """
+    for site, details in sorted(switch_details.iteritems()):
+        if details['switch_make'] == 'juniper':
+            config_template = templates['juniper']
+        else:
+            config_template = templates['other']
+
+        site_config = generate_site_config(site, details, config_template)
+        output.write(site_config)
+
+
+def main(argv):
     """Main."""
     args = parse_options(argv[1:])
     switch_details = read_switch_details()
     exporter_config_file = open(args.output_file, 'w')
 
+    templates = {}
     try:
-        juniper_template = open(args.juniper_template_path, 'r').read()
-        other_template = open(args.other_template_path, 'r').read()
+        templates['juniper'] = open(args.juniper_template_path, 'r').read()
+        templates['other'] = open(args.other_template_path, 'r').read()
     except IOError, err:
         logging.error(err)
-        sys.exit(1)
+        raise
 
-    for site, details in sorted(switch_details.iteritems()):
-        if details['switch_make'] == 'juniper':
-            config_template = juniper_template
-        else:
-            config_template = other_template
-
-        site_config = generate_config(site, details, config_template)
-        exporter_config_file.write(site_config)
+    write_config(switch_details, templates, exporter_config_file)
 
     exporter_config_file.close()
 
