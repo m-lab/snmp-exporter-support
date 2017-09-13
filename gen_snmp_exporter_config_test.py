@@ -20,12 +20,15 @@
 # pylint: disable=missing-docstring, no-self-use, too-many-public-methods
 
 import json
+import logging
 import os
 import textwrap
 import unittest
 
 import gen_snmp_exporter_config
 import mock
+
+logging.disable(logging.CRITICAL)
 
 
 class GenSnmpExporterConfigTest(unittest.TestCase):
