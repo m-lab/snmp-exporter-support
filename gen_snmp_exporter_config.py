@@ -1,6 +1,20 @@
 #!/usr/bin/env python
 """Generate an snmp_exporter configuration file for M-Lab's Juniper switches."""
 
+# Copyright 2017 Measurement Lab
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import argparse
 import json
 import logging
@@ -8,7 +22,7 @@ import string
 import sys
 
 
-def parse_options(args):  # pragma: no cover
+def parse_options(args):
     """Parses the options passed to this script.
 
     Args:
@@ -89,6 +103,7 @@ def write_config(switch_details, templates, output):
         switch_details: dict, all switch configuration details.
         templates: dict, string templates for various switch types.
         output: file, file handle to write output to.
+
     """
     for site, details in sorted(switch_details.iteritems()):
         if details['switch_make'] == 'juniper':
