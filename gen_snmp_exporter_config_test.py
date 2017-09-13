@@ -1,11 +1,31 @@
 #!/usr/bin/env python
+#
+# Copyright 2017 Measurement Lab
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-import gen_snmp_exporter_config
+# No docstrings required for tests, and tests need to be methods of classes to
+# aid in organization of tests. Using the 'self' variable is not required.
+#
+# pylint: disable=missing-docstring, no-self-use, too-many-public-methods
+
 import json
-import mock
 import os
 import textwrap
 import unittest
+
+import gen_snmp_exporter_config
+import mock
 
 
 class GenSnmpExporterConfigTest(unittest.TestCase):
@@ -248,7 +268,7 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
             gen_snmp_exporter_config.main(self.argv_bad)
 
     @mock.patch.object(gen_snmp_exporter_config, 'read_switch_details')
-    def test_generate_site_config_with_bad_template_raises_keyerror(
+    def test_generate_site_config_bad_tmpl_raises_keyerror(
             self, mock_read_switch_details):
         mock_read_switch_details.return_value = json.loads(
             self.sample_details_json)
