@@ -1,2 +1,3 @@
 mlab.yml
 .coverage
+*.pyc
