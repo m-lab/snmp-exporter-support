@@ -19,6 +19,8 @@ true:
   * compute.instances.get
   * compute.instances.list
   * compute.instances.setMetadata
+  * compute.networks.use
+  * compute.networks.useExternalIp
   * compute.projects.get
   * compute.subnetworks.use
   * compute.subnetworks.useExternalIp
