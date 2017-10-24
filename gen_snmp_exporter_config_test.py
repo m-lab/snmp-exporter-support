@@ -50,7 +50,7 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                 "auto_negotiation": "no",
                 "community": "tyUenN0gEVF0LdbtbQmH",
                 "switch_make": "juniper",
-                "uplink_port": "45",
+                "uplink_port": "xe-0/0/45",
                 "uplink_speed": "10g"
             }
         }"""
@@ -79,6 +79,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
                   type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
+                  type: DisplayString
               - name: ifInErrors
                 oid: 1.3.6.1.2.1.2.2.1.14
                 type: counter
@@ -90,6 +95,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   - ifIndex
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
+                  type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
                   type: DisplayString
               - name: ifOutErrors
                 oid: 1.3.6.1.2.1.2.2.1.20
@@ -103,6 +113,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
                   type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
+                  type: DisplayString
               - name: ifHCInOctets
                 oid: 1.3.6.1.2.1.31.1.1.1.6
                 type: counter
@@ -114,6 +129,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   - ifIndex
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
+                  type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
                   type: DisplayString
               - name: ifHCOutOctets
                 oid: 1.3.6.1.2.1.31.1.1.1.10
@@ -127,6 +147,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
                   type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
+                  type: DisplayString
               - name: ifHCInUcastPkts
                 oid: 1.3.6.1.2.1.31.1.1.1.7
                 type: counter
@@ -139,6 +164,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
                   type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
+                  type: DisplayString
               - name: ifHCOutUcastPkts
                 oid: 1.3.6.1.2.1.31.1.1.1.11
                 type: counter
@@ -150,6 +180,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   - ifIndex
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
+                  type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
                   type: DisplayString
             lol01:
               version: 2
@@ -172,6 +207,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
                   type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
+                  type: DisplayString
               - name: ifOutDiscards
                 oid: 1.3.6.1.2.1.2.2.1.19
                 type: counter
@@ -183,6 +223,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   - ifIndex
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
+                  type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
                   type: DisplayString
               - name: ifInErrors
                 oid: 1.3.6.1.2.1.2.2.1.14
@@ -196,6 +241,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
                   type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
+                  type: DisplayString
               - name: ifOutErrors
                 oid: 1.3.6.1.2.1.2.2.1.20
                 type: counter
@@ -207,6 +257,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   - ifIndex
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
+                  type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
                   type: DisplayString
               - name: ifHCInOctets
                 oid: 1.3.6.1.2.1.31.1.1.1.6
@@ -220,6 +275,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
                   type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
+                  type: DisplayString
               - name: ifHCOutOctets
                 oid: 1.3.6.1.2.1.31.1.1.1.10
                 type: counter
@@ -231,6 +291,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   - ifIndex
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
+                  type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
                   type: DisplayString
               - name: ifHCInUcastPkts
                 oid: 1.3.6.1.2.1.31.1.1.1.7
@@ -244,6 +309,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
                   type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
+                  type: DisplayString
               - name: ifHCOutUcastPkts
                 oid: 1.3.6.1.2.1.31.1.1.1.11
                 type: counter
@@ -255,6 +325,11 @@ class GenSnmpExporterConfigTest(unittest.TestCase):
                   - ifIndex
                   labelname: ifDescr
                   oid: 1.3.6.1.2.1.2.2.1.2
+                  type: DisplayString
+                - labels:
+                  - ifIndex
+                  labelname: ifAlias
+                  oid: 1.3.6.1.2.1.31.1.1.1.18
                   type: DisplayString\n""")
 
     @mock.patch.object(gen_snmp_exporter_config, 'read_switch_details')
