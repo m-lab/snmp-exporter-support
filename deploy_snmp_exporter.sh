@@ -65,3 +65,6 @@ gcloud compute ssh $GCE_NAME --command "docker build -t ${IMAGE_TAG} ."
 
 # Start a new container based on the new/updated image
 gcloud compute ssh $GCE_NAME --command "docker run -p 9116:9116 -d ${IMAGE_TAG}"
+
+# Run Prometheus node_exporter in a container so we can gather VM metrics.
+gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9100:9100 --volume /proc:/host/proc --volume /sys:/host/sys prom/node-exporter --path.procfs /host/proc --path.sysfs /host/sys"
