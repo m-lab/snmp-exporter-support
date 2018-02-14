@@ -26,7 +26,7 @@ true:
   * compute.subnetworks.useExternalIp
   * compute.zoneOperations.get
   * compute.zones.list
-* You have created an IAM Service Account in each of the three projects,
-  downloaded the JSON credentials for each, and then created a new IAM user with
-  the custom role you created and the standard "Service Account User" roles.
-  created to the service account.
+* You have created an IAM Service Account in each of the three projects, and
+  then created a new IAM user with to the role references above. The deploy
+  script expects to find the service account credentials as Travis environment
+  variables."
