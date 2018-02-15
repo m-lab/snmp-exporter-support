@@ -1,4 +1,4 @@
-language: generic
+language: python
 
 install:
   - pip install -r test-requirements.txt
