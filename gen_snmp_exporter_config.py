@@ -18,8 +18,12 @@
 import argparse
 import json
 import logging
+import os
+import shutil
+import subprocess
 import string
 import sys
+import tempfile
 
 
 def parse_options(args):
@@ -64,10 +68,20 @@ def read_switch_details():  # pragma: no cover
 
     Returns: A dict with all Juniper switch details
     """
-    switch_details_path = 'switch-config/switch-details.json'
+    github_repo = 'git@github.com:m-lab/switch-config.git'
+    switch_details_file = 'switch-details.json'
+
+    repo_path = tempfile.mkdtemp(prefix='switch-config_repo-')
+    command = ['git', 'clone', github_repo, repo_path]
+    devnull = open(os.devnull, 'w')
+    subprocess.check_call(command, stdout=devnull, stderr=subprocess.STDOUT)
+
+    switch_details_path = os.path.join(repo_path, switch_details_file)
 
     with open(switch_details_path, 'r') as details_file:
         switch_details = json.load(details_file)
+
+    shutil.rmtree(repo_path)
 
     return switch_details
 
