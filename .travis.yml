@@ -1,13 +1,5 @@
 language: python
 
-before_install:
-  - $TRAVIS_BUILD_DIR/travis/decrypt.sh
-    "$encrypted_d0f94f538e88_key"
-    "$encrypted_d0f94f538e88_iv"
-    $TRAVIS_BUILD_DIR/snmp-exporter-service-accounts.tar.enc
-    $TRAVIS_BUILD_DIR/snmp-exporter-service-accounts.tar
-    /tmp
-
 install:
   - pip install -r test-requirements.txt
 
@@ -16,14 +8,10 @@ script:
   - coverage report
   - "$TRAVIS_BUILD_DIR/travis/install_gcloud.sh"
 
-cache:
-  directories:
-    - "$HOME/google-cloud-sdk/"
-
 deploy:
   # Sandbox - conditionally deploy to GCP project mlab-sandbox
   - provider: script
-    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-sandbox"
+    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-sandbox SERVICE_ACCOUNT_mlab_sandbox"
     skip_cleanup: true
     on:
       repo: m-lab/prometheus-snmp-exporter
@@ -31,7 +19,7 @@ deploy:
       condition: "$TRAVIS_EVENT_TYPE == push"
   # Staging - conditionally deploy to GCP project mlab-staging
   - provider: script
-    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-staging"
+    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-staging SERVICE_ACCOUNT_mlab_staging"
     skip_cleanup: true
     on:
       repo: m-lab/prometheus-snmp-exporter
@@ -39,7 +27,7 @@ deploy:
       condition: "$TRAVIS_EVENT_TYPE == push"
   # Production - conditionally deploy to GCP project mlab-oti
   - provider: script
-    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-oti"
+    script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-oti SERVICE_ACCOUNT_mlab_oti"
     skip_cleanup: true
     on:
       repo: m-lab/prometheus-snmp-exporter

@@ -7,7 +7,8 @@ set -x
 # These variables should not change much
 USAGE="Usage: $0 <project>"
 PROJECT=${1:?Please provide project name: $USAGE}
-CREDS_FILE="snmp-exporter-service-account_${PROJECT}.json"
+KEYNAME=${2:?Please provide an authentication key name: $USAGE}
+
 SCP_FILES="Dockerfile mlab.yml"
 IMAGE_TAG="m-lab/prometheus-snmp-exporter"
 GCE_ZONE="us-central1-a"
@@ -19,20 +20,18 @@ GCE_IMG_FAMILY="cos-stable"
 # Add gcloud to PATH.
 source "${HOME}/google-cloud-sdk/path.bash.inc"
 
-# Generate the snmp_exporter configuration file.
-$TRAVIS_BUILD_DIR/gen_snmp_exporter_config.py
+# Add m-lab/travis help lib
+source "$TRAVIS_BUILD_DIR/travis/gcloudlib.sh"
 
 # Set the project and zone for all future gcloud commands.
 gcloud config set project $PROJECT
 gcloud config set compute/zone $GCE_ZONE
 
-# Authenticate the service account using the JSON credentials file.
-if [[ -f "/tmp/${CREDS_FILE}" ]] ; then
-  gcloud auth activate-service-account --key-file /tmp/$CREDS_FILE
-else
-  echo "Service account credentials not found at /tmp/${CREDS_FILE}!"
-  exit 1
-fi
+# Authenticate the service account using KEYNAME.
+activate_service_account "${KEYNAME}"
+
+# Generate the snmp_exporter configuration file.
+$TRAVIS_BUILD_DIR/gen_snmp_exporter_config.py
 
 # Make sure that the files we want to copy actually exist.
 for scp_file in ${SCP_FILES}; do
