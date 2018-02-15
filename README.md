@@ -27,6 +27,6 @@ true:
   * compute.zoneOperations.get
   * compute.zones.list
 * You have created an IAM Service Account in each of the three projects, and
-  then created a new IAM user with to the role references above. The deploy
+  then created a new IAM user with the role referenced above. The deploy
   script expects to find the service account credentials as Travis environment
   variables."
