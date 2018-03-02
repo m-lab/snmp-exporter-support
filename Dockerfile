@@ -19,4 +19,4 @@ EXPOSE 9116
 
 # Mount the GCS bucket that contains the snmp_exporter config and then start
 # snmp_exporter.
-CMD gcsfuse switch-config-mlab-sandbox /etc/snmp_exporter && /root/go/bin/snmp_exporter --config.file=/etc/snmp_exporter/snmp_exporter_config.yaml
+CMD gcsfuse -o ro switch-config-mlab-sandbox /etc/snmp_exporter && /root/go/bin/snmp_exporter --config.file=/etc/snmp_exporter/snmp_exporter_config.yaml
