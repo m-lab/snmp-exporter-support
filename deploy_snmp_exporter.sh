@@ -55,20 +55,14 @@ gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME \
   --image-project $GCE_IMG_PROJECT --image-family $GCE_IMG_FAMILY \
   --tags snmp-exporter
 
-# Configure GCS bucket for mounting in fstab
-gcloud compute ssh $GCE_NAME --command "echo '${GCS_BUCKET} /mnt/${GCS_BUCKET} gcsfuse ro,user,allow_other' >> /etc/fstab"
-
-# Mount the GCS bucket
-gcloud compute ssh $GCE_NAME --command "mount /mnt/${GCS_BUCKET}"
-
 # Copy required snmp_exporter files to the GCE instance.
 gcloud compute scp $SCP_FILES $GCE_NAME:~
 
 # Build the snmp_exporter Docker container.
-gcloud compute ssh $GCE_NAME --command "docker build -t ${IMAGE_TAG} ."
+gcloud compute ssh $GCE_NAME --command "docker build --tag ${IMAGE_TAG} ."
 
 # Start a new container based on the new/updated image
-gcloud compute ssh $GCE_NAME --command "docker run -v /mnt/${GCS_BUCKET}:/etc/snmp_exporter 9116:9116 -d ${IMAGE_TAG}"
+gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9116:9116 --cap-add SYS_ADMIN --device /dev/fuse ${IMAGE_TAG}"
 
 # Run Prometheus node_exporter in a container so we can gather VM metrics.
 gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9100:9100 --volume /proc:/host/proc --volume /sys:/host/sys prom/node-exporter --path.procfs /host/proc --path.sysfs /host/sys --no-collector.arp --no-collector.bcache --no-collector.conntrack --no-collector.edac --no-collector.entropy --no-collector.filefd --no-collector.hwmon --no-collector.infiniband --no-collector.ipvs --no-collector.mdadm --no-collector.netstat --no-collector.sockstat --no-collector.time --no-collector.timex --no-collector.uname --no-collector.vmstat --no-collector.wifi --no-collector.xfs --no-collector.zfs"
