@@ -9,13 +9,14 @@ USAGE="Usage: $0 <project>"
 PROJECT=${1:?Please provide project name: $USAGE}
 KEYNAME=${2:?Please provide an authentication key name: $USAGE}
 
-SCP_FILES="Dockerfile mlab.yml"
+SCP_FILES="Dockerfile"
 IMAGE_TAG="m-lab/prometheus-snmp-exporter"
 GCE_ZONE="us-central1-a"
 GCE_NAME="snmp-exporter"
 GCE_IP_NAME="snmp-exporter-public-ip"
 GCE_IMG_PROJECT="cos-cloud"
 GCE_IMG_FAMILY="cos-stable"
+GCS_BUCKET="snmp-exporter-${PROJECT}"
 
 # Add gcloud to PATH.
 source "${HOME}/google-cloud-sdk/path.bash.inc"
@@ -29,9 +30,6 @@ gcloud config set compute/zone $GCE_ZONE
 
 # Authenticate the service account using KEYNAME.
 activate_service_account "${KEYNAME}"
-
-# Generate the snmp_exporter configuration file.
-$TRAVIS_BUILD_DIR/gen_snmp_exporter_config.py
 
 # Make sure that the files we want to copy actually exist.
 for scp_file in ${SCP_FILES}; do
@@ -61,10 +59,15 @@ gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME \
 gcloud compute scp $SCP_FILES $GCE_NAME:~
 
 # Build the snmp_exporter Docker container.
-gcloud compute ssh $GCE_NAME --command "docker build -t ${IMAGE_TAG} ."
+gcloud compute ssh $GCE_NAME --command "docker build --tag ${IMAGE_TAG} ."
 
-# Start a new container based on the new/updated image
-gcloud compute ssh $GCE_NAME --command "docker run -p 9116:9116 -d ${IMAGE_TAG}"
+# Start a new container based on the new/updated image.  The SYS_ADMIN
+# capability is needed here, along with access to /dev/fuse, because the
+# container needs to mount the GCS bucket that contains the snmp_exporter config
+# file. There is a possibility that a finer-grained capability exists that will
+# allow a container to mount a filesystem, but SYS_ADMIN is the one that I found
+# people recommending.
+gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9116:9116 --cap-add SYS_ADMIN --device /dev/fuse ${IMAGE_TAG}"
 
 # Run Prometheus node_exporter in a container so we can gather VM metrics.
 gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9100:9100 --volume /proc:/host/proc --volume /sys:/host/sys prom/node-exporter --path.procfs /host/proc --path.sysfs /host/sys --no-collector.arp --no-collector.bcache --no-collector.conntrack --no-collector.edac --no-collector.entropy --no-collector.filefd --no-collector.hwmon --no-collector.infiniband --no-collector.ipvs --no-collector.mdadm --no-collector.netstat --no-collector.sockstat --no-collector.time --no-collector.timex --no-collector.uname --no-collector.vmstat --no-collector.wifi --no-collector.xfs --no-collector.zfs"
