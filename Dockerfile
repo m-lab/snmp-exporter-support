@@ -1,5 +1,7 @@
 FROM debian:stretch-slim
 
+ARG project
+
 # Update apt database and install necessary packages.
 RUN apt-get update -qq && apt-get install -qq \
     apt-transport-https \
@@ -28,6 +30,6 @@ EXPOSE 9116
 
 # Mount the GCS bucket that contains the snmp_exporter config and then start
 # snmp_exporter.
-CMD gcsfuse -o ro switch-config-mlab-sandbox /etc/snmp_exporter && \
+CMD gcsfuse -o ro switch-config-${project} /etc/snmp_exporter && \
     /root/go/bin/snmp_exporter \
     --config.file=/etc/snmp_exporter/snmp_exporter_config.yaml

@@ -59,7 +59,7 @@ gcloud compute instances create $GCE_NAME --address $GCE_IP_NAME \
 gcloud compute scp $SCP_FILES $GCE_NAME:~
 
 # Build the snmp_exporter Docker container.
-gcloud compute ssh $GCE_NAME --command "docker build --tag ${IMAGE_TAG} ."
+gcloud compute ssh $GCE_NAME --command "docker build --build-arg project=${PROJECT} --tag ${IMAGE_TAG} ."
 
 # Start a new container based on the new/updated image.  The SYS_ADMIN
 # capability is needed here, along with access to /dev/fuse, because the
