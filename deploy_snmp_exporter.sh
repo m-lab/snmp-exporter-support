@@ -61,7 +61,12 @@ gcloud compute scp $SCP_FILES $GCE_NAME:~
 # Build the snmp_exporter Docker container.
 gcloud compute ssh $GCE_NAME --command "docker build --tag ${IMAGE_TAG} ."
 
-# Start a new container based on the new/updated image
+# Start a new container based on the new/updated image.  The SYS_ADMIN
+# capability is needed here, along with access to /dev/fuse, because the
+# container needs to mount the GCS bucket that contains the snmp_exporter config
+# file. There is a possibility that a finer-grained capability exists that will
+# allow a container to mount a filesystem, but SYS_ADMIN is the one that I found
+# people recommending.
 gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9116:9116 --cap-add SYS_ADMIN --device /dev/fuse ${IMAGE_TAG}"
 
 # Run Prometheus node_exporter in a container so we can gather VM metrics.
