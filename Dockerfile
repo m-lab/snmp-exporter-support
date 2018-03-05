@@ -1,6 +1,6 @@
 FROM debian:stretch-slim
 
-ENV PROJECT
+ENV PROJECT mlab-sandbox
 
 # Update apt database and install necessary packages.
 RUN apt-get update -qq && apt-get install -qq \
