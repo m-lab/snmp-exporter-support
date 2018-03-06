@@ -67,7 +67,7 @@ gcloud compute ssh $GCE_NAME --command "docker build --tag ${IMAGE_TAG} ."
 # file. There is a possibility that a finer-grained capability exists that will
 # allow a container to mount a filesystem, but SYS_ADMIN is the one that I found
 # people recommending.
-gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9116:9116 --cap-add SYS_ADMIN --device /dev/fuse ${IMAGE_TAG}"
+gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9116:9116 --cap-add SYS_ADMIN --device /dev/fuse --env PROJECT=${PROJECT} ${IMAGE_TAG}"
 
 # Run Prometheus node_exporter in a container so we can gather VM metrics.
 gcloud compute ssh $GCE_NAME --command "docker run --detach --publish 9100:9100 --volume /proc:/host/proc --volume /sys:/host/sys prom/node-exporter --path.procfs /host/proc --path.sysfs /host/sys --no-collector.arp --no-collector.bcache --no-collector.conntrack --no-collector.edac --no-collector.entropy --no-collector.filefd --no-collector.hwmon --no-collector.infiniband --no-collector.ipvs --no-collector.mdadm --no-collector.netstat --no-collector.sockstat --no-collector.time --no-collector.timex --no-collector.uname --no-collector.vmstat --no-collector.wifi --no-collector.xfs --no-collector.zfs"
