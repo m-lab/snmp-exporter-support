@@ -9,7 +9,7 @@ deploy:
     script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-sandbox SERVICE_ACCOUNT_mlab_sandbox"
     skip_cleanup: true
     on:
-      repo: m-lab/prometheus-snmp-exporter
+      repo: m-lab/snmp-exporter-support
       branch: sandbox-*
       condition: "$TRAVIS_EVENT_TYPE == push"
   # Staging - conditionally deploy to GCP project mlab-staging
@@ -17,7 +17,7 @@ deploy:
     script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-staging SERVICE_ACCOUNT_mlab_staging"
     skip_cleanup: true
     on:
-      repo: m-lab/prometheus-snmp-exporter
+      repo: m-lab/snmp-exporter-support
       branch: master
       condition: "$TRAVIS_EVENT_TYPE == push"
   # Production - conditionally deploy to GCP project mlab-oti
@@ -25,5 +25,5 @@ deploy:
     script: "$TRAVIS_BUILD_DIR/deploy_snmp_exporter.sh mlab-oti SERVICE_ACCOUNT_mlab_oti"
     skip_cleanup: true
     on:
-      repo: m-lab/prometheus-snmp-exporter
+      repo: m-lab/snmp-exporter-support
       tags: true
