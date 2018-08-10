@@ -10,7 +10,7 @@ PROJECT=${1:?Please provide project name: $USAGE}
 KEYNAME=${2:?Please provide an authentication key name: $USAGE}
 
 SCP_FILES="Dockerfile"
-IMAGE_TAG="m-lab/prometheus-snmp-exporter"
+IMAGE_TAG="m-lab/snmp-exporter-support"
 GCE_ZONE="us-central1-a"
 GCE_NAME="snmp-exporter"
 GCE_IP_NAME="snmp-exporter-public-ip"
